@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <title>Screen Productivity — Offscreen worker</title>
+  </head>
+  <body>
+    <!-- Trang ẩn, không hiển thị. Chỉ là môi trường có DOM để chạy
+         MediaRecorder, canvas và Tesseract. -->
+    <video id="preview" muted playsinline style="display: none"></video>
+    <script src="../vendor/tesseract/tesseract.min.js"></script>
+    <script src="../vendor/mp4-muxer/mp4-muxer.min.js"></script>
+    <script type="module" src="offscreen.js"></script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chỉnh sửa ảnh — Screen Productivity</title>
+    <link rel="stylesheet" href="../sidepanel/sidepanel.css" />
+    <style>
+      html, body { height: 100%; margin: 0; }
+      body { min-width: 0; }
+      #editorMsg {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        padding: 24px;
+        text-align: center;
+        color: var(--text);
+      }
+      #editorMsg h2 { margin: 0; font-size: 20px; }
+      #editorMsg p { margin: 0; color: var(--text-2); }
+      #editorMsg .row { display: flex; gap: 10px; margin-top: 8px; }
+      #editorMsg .btn { min-width: 150px; }
+    </style>
+  </head>
+  <body>
+    <div id="editorMsg" class="is-hidden"></div>
+    <div id="toast" class="toast"></div>
+    <script type="module" src="editor.js"></script>
+  </body>
+</html>

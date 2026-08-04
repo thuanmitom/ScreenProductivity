@@ -1,0 +1,214 @@
+/* content-scripts/overlay.css
+   Mọi lớp phủ dùng z-index rất cao và style tường minh để không bị CSS của
+   trang web ghi đè. Tiền tố sp-overlay- để tránh trùng tên. */
+
+.sp-overlay-region-root {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483646 !important;
+  cursor: crosshair !important;
+  background: transparent !important;
+}
+
+.sp-overlay-mask {
+  display: none !important;
+}
+
+.sp-overlay-region-root .sp-overlay-rect {
+  position: fixed !important;
+  display: none;
+  border: 2px solid #2f6bff !important;
+  background: transparent !important;
+  box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.38) !important;
+  pointer-events: none !important;
+  box-sizing: border-box !important;
+}
+
+.sp-overlay-region-root .sp-overlay-hint {
+  position: fixed !important;
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: #111827 !important;
+  color: #f9fafb !important;
+  font: 500 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif !important;
+  padding: 8px 16px !important;
+  border-radius: 999px !important;
+  pointer-events: none !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+.sp-overlay-region-root .sp-overlay-dim {
+  position: fixed !important;
+  display: none;
+  background: #2f6bff !important;
+  color: #fff !important;
+  font: 600 12px/1 system-ui, sans-serif !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  pointer-events: none !important;
+}
+
+/* ---- Highlight con trỏ ---- */
+.sp-overlay-cursor {
+  position: fixed !important;
+  width: 46px !important;
+  height: 46px !important;
+  margin: -23px 0 0 -23px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(
+    circle,
+    rgba(255, 214, 10, 0.55) 0%,
+    rgba(255, 214, 10, 0.28) 45%,
+    rgba(255, 214, 10, 0) 72%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 2147483645 !important;
+  transition: transform 0.04s linear;
+}
+
+/* ---- Thanh công cụ nổi ---- */
+.sp-overlay-toolbar {
+  position: fixed !important;
+  bottom: 28px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 12px !important;
+  background: rgba(17, 24, 39, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45) !important;
+  cursor: grab !important;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif !important;
+}
+
+.sp-overlay-rec-dot {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background: #ff3b30 !important;
+  margin: 0 4px !important;
+  animation: sp-blink 1.1s ease-in-out infinite;
+}
+@keyframes sp-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.sp-overlay-toolbar .sp-overlay-btn {
+  all: unset !important;
+  cursor: pointer !important;
+  color: #e5e7eb !important;
+  font: 500 13px/1 system-ui, sans-serif !important;
+  padding: 8px 12px !important;
+  border-radius: 9px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  white-space: nowrap !important;
+  user-select: none !important;
+}
+.sp-overlay-toolbar .sp-overlay-btn:hover {
+  background: rgba(255, 255, 255, 0.14) !important;
+}
+.sp-overlay-toolbar .sp-overlay-btn-danger {
+  background: #ff3b30 !important;
+  color: #fff !important;
+}
+.sp-overlay-toolbar .sp-overlay-btn-danger:hover {
+  background: #e11d0f !important;
+}
+.sp-overlay-toolbar .sp-overlay-btn-active {
+  background: #2f6bff !important;
+  color: #fff !important;
+}
+
+/* Nhóm nút + nút thu gọn */
+.sp-overlay-toolbar .sp-overlay-tb-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.sp-overlay-toolbar .sp-overlay-tb-min {
+  padding: 8px 11px !important;
+  font-weight: 700 !important;
+}
+/* Trạng thái thu gọn: chỉ còn chấm đỏ + nút mở lại */
+.sp-overlay-toolbar.sp-overlay-toolbar-min .sp-overlay-tb-group {
+  display: none !important;
+}
+
+/* ---- Lớp annotation ---- */
+.sp-overlay-annotate {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483644 !important;
+  cursor: crosshair !important;
+  background: transparent !important;
+}
+
+/* ---- Bảng công cụ vẽ (annotation palette) ---- */
+.sp-overlay-anno-palette {
+  position: fixed !important;
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 7px 10px !important;
+  background: rgba(17, 24, 39, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45) !important;
+  cursor: grab !important;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif !important;
+}
+.sp-overlay-anno-palette .sp-overlay-anno-b {
+  all: unset !important;
+  cursor: pointer !important;
+  color: #e5e7eb !important;
+  font-size: 15px !important;
+  line-height: 1 !important;
+  width: 30px !important;
+  height: 30px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+.sp-overlay-anno-palette .sp-overlay-anno-b:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+.sp-overlay-anno-palette .sp-overlay-anno-tool.on {
+  background: #2f6bff !important;
+  color: #fff !important;
+}
+.sp-overlay-anno-palette .sp-overlay-anno-sw {
+  /* KHÔNG dùng "all: unset" ở đây vì nó xoá luôn màu nền inline (style=background)
+     -> mọi ô màu bị đen. Chỉ reset những gì cần thiết. */
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 50% !important;
+  border: 2px solid rgba(255, 255, 255, 0.25) !important;
+  box-sizing: border-box !important;
+}
+.sp-overlay-anno-palette .sp-overlay-anno-sw.on {
+  border-color: #fff !important;
+  box-shadow: 0 0 0 2px rgba(47, 107, 255, 0.6) !important;
+}
+.sp-overlay-anno-palette .sp-overlay-anno-sep {
+  width: 1px !important;
+  height: 20px !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  margin: 0 2px !important;
+}

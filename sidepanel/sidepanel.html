@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Screen Productivity</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
+          <rect x="3" y="6" width="26" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2.2"/>
+          <circle cx="16" cy="15" r="4.4" fill="none" stroke="currentColor" stroke-width="2.2"/>
+          <circle cx="16" cy="15" r="1.6" fill="currentColor"/>
+          <path d="M12 28h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-name" data-i18n="appName">Screen Productivity</span>
+      </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" title="Dark / Light">
+          <span class="theme-ico">🌙</span>
+        </button>
+        <button id="langToggle" class="lang-toggle" title="Language">VI / EN</button>
+      </div>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab is-active" data-tab="record" data-i18n="tabRecord">Quay</button>
+      <button class="tab" data-tab="capture" data-i18n="tabCapture">Chụp</button>
+      <button class="tab" data-tab="ocr" data-i18n="tabOcr">OCR</button>
+      <button class="tab" data-tab="settings" data-i18n="tabSettings">Cài đặt</button>
+    </nav>
+
+    <main>
+      <!-- ============ QUAY ============ -->
+      <section class="panel is-active" data-panel="record">
+        <h2 class="section-title" data-i18n="recSource">Chế độ quay</h2>
+        <div class="source-grid" id="sourceGrid">
+          <label class="source-card is-selected">
+            <input type="radio" name="source" value="tab" checked />
+            <span class="sc-title" data-i18n="srcTab">Tab hiện tại</span>
+            <span class="sc-desc" data-i18n="srcTabDesc">Chỉ quay tab đang mở</span>
+          </label>
+          <label class="source-card">
+            <input type="radio" name="source" value="window" />
+            <span class="sc-title" data-i18n="srcWindow">Cửa sổ</span>
+            <span class="sc-desc" data-i18n="srcWindowDesc">Một ứng dụng</span>
+          </label>
+          <label class="source-card">
+            <input type="radio" name="source" value="screen" />
+            <span class="sc-title" data-i18n="srcScreen">Toàn màn hình</span>
+            <span class="sc-desc" data-i18n="srcScreenDesc">Cả màn hình</span>
+          </label>
+          <label class="source-card">
+            <input type="radio" name="source" value="region" />
+            <span class="sc-title" data-i18n="srcRegion">Vùng chọn</span>
+            <span class="sc-desc" data-i18n="srcRegionDesc">Khung chữ nhật</span>
+          </label>
+        </div>
+
+        <h2 class="section-title" data-i18n="preflight">Kiểm tra thiết bị</h2>
+        <div class="device-block">
+          <div class="device-row">
+            <label class="switch">
+              <input type="checkbox" id="micToggle" />
+              <span class="slider"></span>
+            </label>
+            <span class="device-label" data-i18n="mic">Micro</span>
+          </div>
+          <select id="micDevice" class="device-select" disabled></select>
+          <div class="meter" id="micMeter"><div class="meter-fill" id="micMeterFill"></div></div>
+        </div>
+
+        <div class="device-block">
+          <div class="device-row">
+            <label class="switch">
+              <input type="checkbox" id="camToggle" />
+              <span class="slider"></span>
+            </label>
+            <span class="device-label" data-i18n="camera">Camera</span>
+          </div>
+          <select id="camDevice" class="device-select" disabled></select>
+          <video id="camPreview" class="cam-preview" muted playsinline></video>
+
+          <!-- Tuỳ chọn hiển thị camera trên video (như livestream) -->
+          <div class="cam-options is-hidden" id="camOptions">
+            <div class="cam-opt-row">
+              <label class="cam-opt-label" data-i18n="camPos">Vị trí</label>
+              <div class="pos-grid" id="camPosGrid">
+                <button type="button" class="pos-cell" data-pos="tl" title="Trên trái"></button>
+                <button type="button" class="pos-cell" data-pos="tr" title="Trên phải"></button>
+                <button type="button" class="pos-cell" data-pos="bl" title="Dưới trái"></button>
+                <button type="button" class="pos-cell" data-pos="br" title="Dưới phải"></button>
+              </div>
+            </div>
+            <div class="cam-opt-row">
+              <label class="cam-opt-label" data-i18n="camSize">Kích thước</label>
+              <select id="camSize" class="device-select">
+                <option value="sm" data-i18n="camSm">Nhỏ</option>
+                <option value="md" data-i18n="camMd">Vừa</option>
+                <option value="lg" data-i18n="camLg">Lớn</option>
+              </select>
+            </div>
+            <div class="cam-opt-row">
+              <label class="cam-opt-label" data-i18n="camShape">Hình dạng</label>
+              <select id="camShape" class="device-select">
+                <option value="rect" data-i18n="camRect">Chữ nhật</option>
+                <option value="circle" data-i18n="camCircle">Tròn</option>
+              </select>
+            </div>
+            <div class="toggle-line" style="margin:8px 0 0">
+              <label class="switch">
+                <input type="checkbox" id="camMirrorToggle" />
+                <span class="slider"></span>
+              </label>
+              <span class="device-label" data-i18n="camMirror">Lật gương camera</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-line">
+          <label class="switch">
+            <input type="checkbox" id="sysAudioToggle" />
+            <span class="slider"></span>
+          </label>
+          <span class="device-label" data-i18n="systemAudio">Âm thanh hệ thống</span>
+        </div>
+        <div class="toggle-line">
+          <label class="switch">
+            <input type="checkbox" id="cursorHlToggle" />
+            <span class="slider"></span>
+          </label>
+          <span class="device-label" data-i18n="cursorHl">Highlight con trỏ chuột</span>
+        </div>
+
+        <div class="rec-controls" id="recIdle">
+          <button id="btnRecord" class="btn btn-primary btn-lg">
+            <span class="dot-rec"></span><span data-i18n="btnRecord">Bắt đầu quay</span>
+          </button>
+        </div>
+
+        <div class="rec-controls is-hidden" id="recActive">
+          <div class="rec-status">
+            <span class="dot-rec live"></span>
+            <span id="recTimer" class="rec-timer">00:00</span>
+            <span id="recStateLabel" class="rec-state" data-i18n="recording">Đang quay</span>
+          </div>
+          <div class="rec-buttons">
+            <button id="btnPause" class="btn btn-ghost" data-i18n="btnPause">Tạm dừng</button>
+            <button id="btnStop" class="btn btn-danger" data-i18n="btnStop">Dừng & lưu</button>
+            <button id="btnCancel" class="btn btn-ghost" data-i18n="btnCancel">Huỷ</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CHỤP ============ -->
+      <section class="panel" data-panel="capture">
+        <button class="action-card" id="capVisible">
+          <span class="ac-icon">🖥️</span>
+          <span class="ac-text">
+            <span class="ac-title" data-i18n="capVisible">Chụp màn hình hiện tại</span>
+            <span class="ac-desc" data-i18n="capVisibleDesc">Phần trang đang hiển thị</span>
+          </span>
+        </button>
+        <button class="action-card" id="capRegion">
+          <span class="ac-icon">⬚</span>
+          <span class="ac-text">
+            <span class="ac-title" data-i18n="capRegion">Chụp vùng chọn</span>
+            <span class="ac-desc" data-i18n="capRegionDesc">Kéo chuột chọn khung</span>
+          </span>
+        </button>
+        <button class="action-card" id="capFull">
+          <span class="ac-icon">📜</span>
+          <span class="ac-text">
+            <span class="ac-title" data-i18n="capFull">Chụp toàn bộ trang</span>
+            <span class="ac-desc" data-i18n="capFullDesc">Tự cuộn và ghép ảnh dài</span>
+          </span>
+        </button>
+
+        <div class="capture-preview is-hidden" id="capturePreview">
+          <div class="preview-head">
+            <h2 class="section-title" data-i18n="previewTitle">Ảnh vừa chụp</h2>
+            <button class="icon-btn" id="btnClearImg" title="Đóng / Xoá ảnh" data-i18n-title="clearImg">✕</button>
+          </div>
+          <div class="preview-frame">
+            <img id="previewImg" alt="" />
+          </div>
+          <div class="preview-actions">
+            <button class="btn btn-ghost" id="btnEditImg" data-i18n="editImg">✎ Vẽ / Sửa</button>
+            <button class="btn btn-ghost" id="btnCopyImg" data-i18n="copyImg">Sao chép</button>
+            <button class="btn btn-primary" id="btnSaveImg" data-i18n="saveImg">Lưu file</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ OCR ============ -->
+      <section class="panel" data-panel="ocr">
+        <button class="btn btn-primary btn-lg" id="ocrScan">
+          <span data-i18n="ocrScan">Quét vùng chữ</span>
+        </button>
+        <div class="field">
+          <label class="field-label" data-i18n="ocrLang">Ngôn ngữ nhận diện</label>
+          <select id="ocrLang" class="device-select">
+            <option value="vie+eng">Tiếng Việt + English</option>
+            <option value="vie">Tiếng Việt</option>
+            <option value="eng">English</option>
+          </select>
+        </div>
+        <textarea id="ocrResult" class="ocr-result" data-i18n-ph="ocrResultPh"
+          placeholder="Kết quả nhận diện sẽ hiện ở đây…"></textarea>
+        <div class="ocr-actions">
+          <button class="btn btn-ghost" id="ocrCopy" data-i18n="ocrCopy">Sao chép văn bản</button>
+          <button class="btn btn-ghost" id="ocrClear" data-i18n="ocrClear">Xoá</button>
+        </div>
+      </section>
+
+      <!-- ============ CÀI ĐẶT ============ -->
+      <section class="panel" data-panel="settings">
+        <h2 class="section-title" data-i18n="setTheme">Giao diện màu</h2>
+        <div class="field theme-seg" id="themeSeg">
+          <button type="button" class="seg-btn" data-theme="system" data-i18n="themeSystem">Hệ thống</button>
+          <button type="button" class="seg-btn" data-theme="light" data-i18n="themeLight">Sáng</button>
+          <button type="button" class="seg-btn" data-theme="dark" data-i18n="themeDark">Tối</button>
+        </div>
+
+        <h2 class="section-title" data-i18n="setUi">Giao diện mở</h2>
+        <div class="field ui-mode" id="uiModeGroup">
+          <label class="ui-option">
+            <input type="radio" name="uiMode" value="popup" />
+            <span class="uo-title" data-i18n="uiPopup">Popup</span>
+            <span class="uo-desc" data-i18n="uiPopupDesc">Cửa sổ nhỏ trên icon</span>
+          </label>
+          <label class="ui-option">
+            <input type="radio" name="uiMode" value="sidepanel" />
+            <span class="uo-title" data-i18n="uiPanel">Side panel</span>
+            <span class="uo-desc" data-i18n="uiPanelDesc">Cố định cạnh màn hình</span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label class="field-label" data-i18n="setProject">Tên dự án</label>
+          <input type="text" id="projectName" class="text-input" />
+        </div>
+        <div class="field">
+          <label class="field-label" data-i18n="setFilename">Mẫu đặt tên file</label>
+          <input type="text" id="filenameTemplate" class="text-input" />
+          <div class="preview" id="filenamePreview"></div>
+          <div class="hint" data-i18n="tokenHint">
+            Token: [project] [YYYY] [MM] [DD] [HH] [mm] [ss] [timestamp]
+          </div>
+        </div>
+
+        <h2 class="section-title" data-i18n="setSaveMode">Cách lưu file</h2>
+        <div class="toggle-line">
+          <label class="switch">
+            <input type="checkbox" id="askWhereToSave" />
+            <span class="slider"></span>
+          </label>
+          <span class="device-label" data-i18n="askSave">Hỏi nơi lưu &amp; tên file mỗi lần tải</span>
+        </div>
+        <div class="hint" data-i18n="askSaveHint" style="margin-bottom:14px">
+          Tắt: tự lưu vào thư mục và tên đặt sẵn bên dưới. Bật: mỗi lần tải sẽ hiện hộp thoại chọn nơi lưu.
+        </div>
+
+        <h2 class="section-title" data-i18n="setFolders">Thư mục lưu (trong Downloads)</h2>
+        <div class="field">
+          <label class="field-label" data-i18n="videoFolder">Video</label>
+          <input type="text" id="videoFolder" class="text-input" />
+        </div>
+        <div class="field">
+          <label class="field-label" data-i18n="screenshotFolder">Ảnh chụp</label>
+          <input type="text" id="screenshotFolder" class="text-input" />
+        </div>
+        <div class="field">
+          <label class="field-label" data-i18n="ocrFolder">OCR</label>
+          <input type="text" id="ocrFolder" class="text-input" />
+        </div>
+
+        <h2 class="section-title" data-i18n="setVideo">Định dạng video</h2>
+        <div class="field">
+          <select id="videoFormat" class="device-select">
+            <option value="mp4" data-i18n="vfMp4">MP4 (mở được mọi trình phát)</option>
+            <option value="webm" data-i18n="vfWebm">WebM (nhẹ hơn)</option>
+          </select>
+          <div class="hint" data-i18n="videoFmtHint">
+            MP4 khuyến nghị để xem được trên Windows Media Player, điện thoại…
+          </div>
+        </div>
+
+        <h2 class="section-title" data-i18n="setImage">Định dạng ảnh</h2>
+        <div class="field">
+          <select id="imageFormat" class="device-select">
+            <option value="png">PNG (không mất chất lượng)</option>
+            <option value="jpeg">JPEG (nhẹ hơn)</option>
+          </select>
+        </div>
+        <div class="field" id="qualityField">
+          <label class="field-label"><span data-i18n="imgQuality">Chất lượng JPEG</span>: <span id="qualityVal">92</span>%</label>
+          <input type="range" id="jpegQuality" min="50" max="100" value="92" />
+        </div>
+
+        <button class="btn btn-primary" id="saveSettings" data-i18n="save">Lưu cài đặt</button>
+      </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script type="module" src="sidepanel.js"></script>
+  </body>
+</html>
